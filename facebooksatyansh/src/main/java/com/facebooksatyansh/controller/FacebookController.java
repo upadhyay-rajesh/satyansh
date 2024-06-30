@@ -1,5 +1,6 @@
 package com.facebooksatyansh.controller;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.facebooksatyansh.entity.FacebookUser;
@@ -57,7 +58,23 @@ public class FacebookController implements FacebookControllerInterface {
 	}
 
 	public void viewProfileController() {
-		// TODO Auto-generated method stub
+		Scanner sc=new Scanner(System.in);
+		System.out.println("enter email to see profile");
+		String email=sc.next();
+		
+		FacebookUser fuser=new FacebookUser();
+		fuser.setEmail(email);
+		
+		FacebookServiceInterface fService=new FacebookService();
+		FacebookUser f1=fService.viewProfileService(fuser);
+		
+		if(f1!=null) {
+			System.out.println("Your profile is ");
+			System.out.println("Name is --> "+f1.getName());
+			System.out.println("Password is --> "+f1.getPassword());
+			System.out.println("Email is --> "+f1.getEmail());
+			System.out.println("Address is --> "+f1.getAddress());
+		}
 
 	}
 
@@ -72,12 +89,42 @@ public class FacebookController implements FacebookControllerInterface {
 	}
 
 	public void viewAllProfileController() {
-		// TODO Auto-generated method stub
-
+		FacebookServiceInterface fService=new FacebookService();
+		List<FacebookUser> flist= fService.viewAllProfileService();
+		
+		for(FacebookUser f1:flist) {
+			System.out.println("***********************************");
+			System.out.println("Your profile is ");
+			System.out.println("Name is --> "+f1.getName());
+			System.out.println("Password is --> "+f1.getPassword());
+			System.out.println("Email is --> "+f1.getEmail());
+			System.out.println("Address is --> "+f1.getAddress());
+			
+		}
 	}
 
 	public void loginProfileController() {
-		// TODO Auto-generated method stub
+		Scanner sc=new Scanner(System.in);
+		System.out.println("enter email to login profile");
+		String email=sc.next();
+		System.out.println("enter password");
+		String password=sc.next();
+		
+		FacebookUser fuser=new FacebookUser();
+		fuser.setEmail(email);
+		fuser.setPassword(password);
+		
+		
+		FacebookServiceInterface fService=new FacebookService();
+		boolean f1=fService.loginProfileService(fuser);
+		
+		if(f1) {
+			System.out.println("YWelcome to portal Mr./Mrs. "+email);
+			
+		}
+		else {
+			System.out.println("Invalid id and password");
+		}
 
 	}
 
