@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.facebooksatyansh.entity.FacebookUser;
+import com.facebooksatyansh.exception.ProfileNotFoundException;
 import com.facebooksatyansh.servivce.FacebookService;
 import com.facebooksatyansh.servivce.FacebookServiceInterface;
 
@@ -67,7 +68,7 @@ public class FacebookController implements FacebookControllerInterface {
 		
 		FacebookServiceInterface fService=new FacebookService();
 		FacebookUser f1=fService.viewProfileService(fuser);
-		
+		try {
 		if(f1!=null) {
 			System.out.println("Your profile is ");
 			System.out.println("Name is --> "+f1.getName());
@@ -75,16 +76,89 @@ public class FacebookController implements FacebookControllerInterface {
 			System.out.println("Email is --> "+f1.getEmail());
 			System.out.println("Address is --> "+f1.getAddress());
 		}
+		else {
+			throw new ProfileNotFoundException("profile with given email "+email+" not available in database");
+		}
+		}
+		catch(ProfileNotFoundException f) {
+			System.out.println(f);
+		}
 
 	}
 
 	public void deleteProfileController() {
-		// TODO Auto-generated method stub
-
+		Scanner sc=new Scanner(System.in);
+		System.out.println("enter email to see delete profile");
+		String email=sc.next();
+		
+		FacebookUser fuser=new FacebookUser();
+		fuser.setEmail(email);
+		
+		FacebookServiceInterface fService=new FacebookService();
+		int f1=fService.deleteProfileService(fuser);
+		if(f1>0) {
+			System.out.println("profile deleted");
+		}
+		else {
+			System.out.println("could not delete profile");
+		}
 	}
 
 	public void editProfileController() {
-		// TODO Auto-generated method stub
+		Scanner sc=new Scanner(System.in);
+		System.out.println("enter email to edit profile");
+		String email=sc.next();
+		
+		FacebookUser fuser=new FacebookUser();
+		fuser.setEmail(email);
+		
+		FacebookServiceInterface fService=new FacebookService();
+		FacebookUser f1=fService.viewProfileService(fuser);
+		
+		if(f1!=null) {
+			System.out.println("Your old profile is ");
+			System.out.println("Name is --> "+f1.getName());
+			System.out.println("Password is --> "+f1.getPassword());
+			System.out.println("Email is --> "+f1.getEmail());
+			System.out.println("Address is --> "+f1.getAddress());
+			
+			System.out.println("press 1 to edit password");
+			System.out.println("press 2 to edit address");
+			int c=sc.nextInt();
+			 FacebookUser f2=new FacebookUser();
+			switch(c) {
+			case 1 : System.out.println("enter new password");
+					 String password=sc.next();
+					 f2.setPassword(password);
+					 f2.setEmail(email);
+					// FacebookServiceInterface fService=new FacebookService();
+					 int f3=fService.editProfileService(f2);
+					 if(f3>0) {
+							System.out.println("password  updated");
+						}
+						else {
+							System.out.println("could not edit password");
+						}
+				break;
+			case 2 : System.out.println("enter new address");
+					 String address=sc.next();
+					 f2.setAddress(address);
+					 f2.setEmail(email);
+					 int f4=fService.editProfileService(f2);
+					 if(f4>0) {
+							System.out.println("address edited");
+						}
+						else {
+							System.out.println("could not edit address");
+						}
+				break;
+				default : System.out.println("wrong choice");
+			}
+		}
+		else {
+			System.out.println("profile not found for given mail id "+email);
+		}
+
 
 	}
 

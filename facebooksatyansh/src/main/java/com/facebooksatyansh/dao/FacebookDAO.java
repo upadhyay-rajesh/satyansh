@@ -71,9 +71,13 @@ public class FacebookDAO implements FacebookDAOInterface {
 				 ff.setAddress(a);
 				 
 			 }
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
+		}
+		finally {
+			
 		}
 		return ff;
 	}
@@ -126,6 +130,48 @@ public class FacebookDAO implements FacebookDAOInterface {
 			e.printStackTrace();
 		}
 		return ff1;
+	}
+
+	public int deleteProfileDAO(FacebookUser fuser) {
+		int i=0;
+		try {
+			Connection con=DatabaseConnection.getConnection();
+			PreparedStatement ps=con.prepareStatement("delete from facebookuser where email=?");
+			ps.setString(1, fuser.getEmail());
+			i=ps.executeUpdate();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return i;
+	}
+
+	public int editProfileDAO(FacebookUser f2) {
+		int i=0;
+		String query=null;
+		
+		
+		PreparedStatement ps=null;
+		
+		try {
+			Connection con=DatabaseConnection.getConnection();
+			if(f2.getPassword()!=null) {
+				ps=con.prepareStatement("update facebookuser set password=? where email=?");
+				ps.setString(1, f2.getPassword());
+				ps.setString(2, f2.getEmail());
+			}
+			if(f2.getAddress()!=null) {
+				ps=con.prepareStatement("update facebookuser set address=? where email=?");
+				ps.setString(1, f2.getAddress());
+				ps.setString(2, f2.getEmail());
+			}
+			
+			i=ps.executeUpdate();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return i;
 	}
 
 }

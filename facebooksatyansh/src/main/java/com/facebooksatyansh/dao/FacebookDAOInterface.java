@@ -14,4 +14,8 @@ public interface FacebookDAOInterface {
 
 	List<FacebookUser> viewAllProfileDAO();
 
+	int deleteProfileDAO(FacebookUser fuser);
+
+	int editProfileDAO(FacebookUser f2);
+
 }

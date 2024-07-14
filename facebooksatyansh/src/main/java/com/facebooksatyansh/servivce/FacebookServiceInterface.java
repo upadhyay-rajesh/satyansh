@@ -14,4 +14,16 @@ public interface FacebookServiceInterface {
 
 	List<FacebookUser> viewAllProfileService();
 
+	int deleteProfileService(FacebookUser fuser);
+
+	int editProfileService(FacebookUser f2);
+	
+	default void add() {
+		
+	}
+	
+	static void sub() {
+		
+	}
+
 }

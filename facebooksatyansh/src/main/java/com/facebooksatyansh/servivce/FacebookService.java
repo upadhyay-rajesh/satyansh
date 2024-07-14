@@ -39,4 +39,14 @@ public class FacebookService implements FacebookServiceInterface {
 		return fdao.viewAllProfileDAO();
 	}
 
+	public int deleteProfileService(FacebookUser fuser) {
+		FacebookDAOInterface fdao=new FacebookDAO();
+		return fdao.deleteProfileDAO(fuser);
+	}
+
+	public int editProfileService(FacebookUser f2) {
+		FacebookDAOInterface fdao=new FacebookDAO();
+		return fdao.editProfileDAO(f2);
+	}
+
 }
